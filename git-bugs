@@ -2,8 +2,12 @@
 
 from bugzilla.agents import BMOAgent
 import subprocess
+import colorama
+from colorama import Fore, Style
 
 if __name__ == '__main__':
+    colorama.init()
+
     username = subprocess.check_output('git config user.email', shell=True)
     bmo = BMOAgent(username, None)
 
@@ -13,7 +17,12 @@ if __name__ == '__main__':
         'status':             'NEW'
     }
 
-    buglist = bmo.get_bug_list(options)
-    print "Found %s bugs" % (len(buglist))
+    buglist = []
+    status = ['NEW', 'REOPENED']
+    for s in status:
+        options['status'] = s
+        buglist.extend(bmo.get_bug_list(options))
+
     for bug in buglist:
-        print bug
+        print(Fore.GREEN + Style.BRIGHT + str(bug.id) + Style.RESET_ALL),
+        print('- ' + bug.summary)

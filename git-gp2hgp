@@ -26,7 +26,7 @@ def process(lines):
         nextline = lines.pop(0)
 
     # Format subject '[PATCH 1/3]' => 'Part 1: '.
-    subject = re.sub(r'^\[PATCH (\d)/\d\] ', r'Part \1: ', subject)
+    subject = re.sub(r'^\[PATCH (\d+)/\d+\] ', r'Part \1: ', subject)
     subject = re.sub(r'\[PATCH\] ', '', subject)
 
     # Filter a version (ie, v3, v12) out of the subject.
